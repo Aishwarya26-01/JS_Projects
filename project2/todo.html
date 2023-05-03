@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Todo List</title>
+    </head>
+    <body>
+        <div class="container">
+            <h2 class="txt" id="txth">Todo List</h2>
+            <form action="#" onsubmit="saveToLocalStorage(event)" >
+                <label> Todo Name </label>
+                <input type="text" id="todoName" name="todo" required/>
+                <label> Todo Description </label>
+                <input type="text" id="des" name="description" required/>
+                <button> Add todo </button>
+                <!-- <ol class="Todosremaining">
+                    <h3>TodosRemaining</h3>
+                </ol>
+                <ol class="TodosDone">
+                    <h3>TodosDone</h3>
+                </ol> -->
+            </form>
+            <ul id="listOfTodo"></ul>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
+            <script src="todo.js"></script>
+        </div>
+    </body>
+</html>
