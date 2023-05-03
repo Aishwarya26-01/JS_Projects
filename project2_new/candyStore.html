@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html> 
+  <head>
+    <title>Candy Store</title>
+  </head>
+  <body>
+    <h1><u>Candy Store</u></h1>
+    <form onsubmit="SubmitToLocalStorage(event)" id="details">
+      Name
+      <input type="text" name="Cname" required placeholder="Enter product name"/> 
+      Description
+      <input type="text" name="Description" placeholder="Enter details" required/>
+      Price
+      <input type="number" name="Price" placeholder="Enter price"/>
+      Quantity
+      <input type="number" name="Quantity" placeholder="Enter quantity"/>
+      <button> Add Item </button>    
+    </form>
+    <br><br>
+    <ul id="listOfItems"></ul>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
+    <script>
+      function SubmitToLocalStorage(event) {
+        event.preventDefault();
+        const Cname = event.target.Cname.value;
+        const Desc = event.target.Description.value;
+        const Price = event.target.Price.value;
+        const Quantity = event.target.Quantity.value;
+        const Details = {
+          Cname,
+          Desc,
+          Price,
+          Quantity
+        }
+        axios.post("https://crudcrud.com/api/e63b7521e571427da5fe20b3424fabd3/CandyStock", Details)
+        .then((response) => {
+        showStockOnScreen(response.data)
+        })
+        .catch((error) => {
+        document.body.innerHTML = document.body.innerHTML + "<h4> Something went wrong </h4>"
+        console.log(error)
+        })
+      }
+
+    window.addEventListener("DOMContentLoaded", () => {
+        axios.get("https://crudcrud.com/api/e63b7521e571427da5fe20b3424fabd3/CandyStock")
+        .then((response) => {
+            for(var i=0; i<response.data.length; i++) {
+                showStockOnScreen(response.data[i])
+            }
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+    })
+
+      function showStockOnScreen(details) {
+        const PE = document.getElementById('listOfItems');
+        const CE = document.createElement('li');
+        CE.textContent = details.Cname + " " + details.Desc + " " + details.Price + " " + details.Quantity;
+        const Buy1 = document.createElement("button");
+        Buy1.textContent = "BUY1";
+        Buy1.onclick = function() {
+          updateQuantity(CE,details, 1);
+        };
+        const Buy2 = document.createElement("button");
+        Buy2.textContent = "BUY2";
+        Buy2.onclick = function() {
+          updateQuantity(CE,details, 2);
+        };
+        const Buy3 = document.createElement("button");
+        Buy3.textContent = "BUY3";
+        Buy3.onclick = function() {
+          updateQuantity(CE,details, 3);
+        };
+        const quantityElement = document.createElement("span");
+        CE.appendChild(Buy1);
+        CE.appendChild(Buy2);
+        CE.appendChild(Buy3);
+        CE.appendChild(quantityElement);
+        PE.appendChild(CE);
+      }
+
+      function updateQuantity(CE,details, quantity) {
+        if(details.Quantity > 0) {
+          details.Quantity = Math.max(details.Quantity - quantity);
+           quantityElement = CE.querySelector('span');
+          quantityElement.textContent = " Left Quantity: " + details.Quantity;
+        } else {
+          alert("No item to sell");
+        }
+      }
+    </script>
+  </body>
+</html>
