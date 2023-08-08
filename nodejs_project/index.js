@@ -32,26 +32,28 @@ const display = async(event) => {
 }
 
 const showNewOrderOnScreen = (order) => {
-    // const selectedCategory = document.getElementById("category");
     document.getElementById("amount").value='';
     document.getElementById("details").value='';
     document.getElementById("category").value='';
 
-    // const table1 = document.getElementById('table1');
-    // const table2 = document.getElementById('table2');
-    // const table3 = document.getElementById('table3');
+    const table1 = document.getElementById('table1');
+    const table2 = document.getElementById('table2');
+    const table3 = document.getElementById('table3');
 
-    const parentNode = document.getElementById('listOfitems');
     const createNewOrderHtml = `<li id='${order.id}'>${order.amount} - ${order.details} - ${order.category}
         <button onclick=deleteOrder('${order.id}')>Delete Order</button>
         </li>`
         console.log(createNewOrderHtml)
-        // if(selectedCategory.value === "Table1") {
-        //     parentNode.innerHTML += createNewOrderHtml;
-        //     table1.appendChild(createNewOrderHtml);
-        // }
-        parentNode.innerHTML += createNewOrderHtml;
-        console.log(parentNode.innerHTML)
+
+        if(order.category == "Table1") {
+            table1.innerHTML += createNewOrderHtml;
+        }
+        else if(order.category == "Table2") {
+            table2.innerHTML += createNewOrderHtml;
+        }
+        else {
+            table3.innerHTML += createNewOrderHtml;
+        }
 }
 
 const deleteOrder = async (orderId) => {
@@ -65,17 +67,8 @@ const deleteOrder = async (orderId) => {
     }
 }
 
-// const editOrder = async (category, amount, details, orderId) => {
-//     document.getElementById("category").value=category;
-//     document.getElementById("amount").value=amount;
-//     document.getElementById("details").value=details;
-
-//     await deleteOrder(orderId);
-// }
-
 const removeOrderFromScreen = async (orderId) => {
-    const parentNode = document.getElementById('listOfitems');
-    const elem = document.getElementById(orderId)
-    parentNode.removeChild(elem);
+    const elem = document.getElementById(orderId);
+    elem.remove(elem);
 }
 window.addEventListener("DOMContentLoaded", display);
